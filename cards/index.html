@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>Kartu QR · Yves Saint Laurent AR</title>
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --surface: #15171b;
+      --hairline: rgba(255, 255, 255, 0.08);
+      --text: #f5f5f7;
+      --text-2: #a1a4ab;
+      --accent: #c9a24d;
+      --ink: #111111;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background: radial-gradient(120% 60% at 50% 0%, #2a2418 0%, var(--bg) 55%);
+      color: var(--text);
+      font: 100%/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    header, main, footer { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+    header { padding-top: calc(40px + env(safe-area-inset-top)); padding-bottom: 8px; }
+    .eyebrow { margin: 0 0 8px; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.14em; color: var(--accent); }
+    h1 { margin: 0 0 10px; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.025em; }
+    .lead { margin: 0; max-width: 62ch; color: var(--text-2); font-size: 1.0625rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      min-height: 46px; padding: 0 20px;
+      border: 0; border-radius: 999px;
+      font-family: inherit; font-size: 0.9375rem; font-weight: 600; line-height: 1;
+      text-decoration: none; cursor: pointer;
+      transition: transform 100ms ease-out, background 200ms ease;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--accent); color: var(--ink); }
+    .btn-ghost { background: rgba(255, 255, 255, 0.07); color: var(--text); }
+    .btn-ghost:hover { background: rgba(255, 255, 255, 0.13); }
+    .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+    main { padding-top: 28px; padding-bottom: 40px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .card {
+      display: grid; gap: 14px; padding: 14px;
+      border-radius: 24px; background: var(--surface);
+      box-shadow: inset 0 0 0 1px var(--hairline), 0 24px 50px -30px rgba(0, 0, 0, 0.9);
+    }
+    .card img {
+      width: 100%; aspect-ratio: 1; display: block;
+      border-radius: 14px; background: #1b2b2a;
+      cursor: zoom-in;
+      transition: transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .card img:hover { transform: scale(1.015); }
+    .meta { display: flex; align-items: baseline; gap: 10px; padding: 0 4px; }
+    .num { font: italic 600 0.9375rem/1 Georgia, serif; color: var(--accent); }
+    .name { margin: 0; font-size: 1rem; font-weight: 600; letter-spacing: -0.005em; line-height: 1.3; }
+    .row { display: flex; gap: 8px; }
+    .row .btn { flex: 1; justify-content: center; min-height: 42px; font-size: 0.875rem; }
+
+    .how {
+      margin-top: 28px; padding: 22px; border-radius: 24px;
+      background: var(--surface); box-shadow: inset 0 0 0 1px var(--hairline);
+    }
+    .how h2 { margin: 0 0 12px; font-size: 1.25rem; letter-spacing: -0.015em; }
+    .how ol { margin: 0; padding-left: 20px; color: var(--text-2); display: grid; gap: 6px; }
+    .how strong { color: var(--text); }
+    footer { padding-bottom: calc(28px + env(safe-area-inset-bottom)); color: #6e7178; font-size: 0.75rem; text-align: center; }
+
+    /* Tampilan besar saat kartu diketuk */
+    dialog {
+      max-width: min(92vw, 720px); padding: 0; border: 0; border-radius: 22px;
+      background: transparent; overflow: visible;
+    }
+    dialog::backdrop { background: rgba(5, 6, 8, 0.78); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    dialog img { width: 100%; display: block; border-radius: 22px; }
+    dialog button { position: absolute; top: -14px; right: -14px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: #fff; font-size: 20px; cursor: pointer; }
+
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+    /* Cetak: 2 kartu per halaman A4, masing-masing 10 cm */
+    .print-sheet { display: none; }
+    @media print {
+      @page { size: A4; margin: 15mm; }
+      body { background: #fff; }
+      header, main, footer, dialog { display: none !important; }
+      .print-sheet { display: grid; grid-template-columns: 100mm; justify-content: center; gap: 18mm; }
+      .print-sheet figure { margin: 0; break-inside: avoid; text-align: center; font: 10pt Georgia, serif; color: #333; }
+      .print-sheet img { width: 100mm; height: 100mm; display: block; }
+      .print-sheet figure:nth-child(2n) { break-after: page; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="eyebrow">SAINT LAURENT · AR COLLECTION</p>
+    <h1>Kartu QR</h1>
+    <p class="lead">Enam kartu untuk AR camera. Tampilkan di layar atau cetak, lalu scan QR-nya dengan kamera HP (Android atau iPhone). Website AR akan terbuka dan animasi 3D muncul di atas kartu.</p>
+    <div class="actions">
+      <button class="btn btn-primary" type="button" onclick="print()">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v4H7V3Zm-2 6h14a3 3 0 0 1 3 3v5h-4v4H6v-4H2v-5a3 3 0 0 1 3-3Zm3 7v3h8v-3H8Zm10-4.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/></svg>
+        Cetak semua (10 cm)
+      </button>
+      <a class="btn btn-ghost" href="Kartu-QR-YSL-A4.pdf" download>Download PDF (1 lembar A4)</a>
+      <a class="btn btn-ghost" href="Tugas-AR-YSL.pdf" download>Download PDF tugas (cover + QR)</a>
+      <a class="btn btn-ghost" href="../">Buka AR Camera</a>
+      <a class="btn btn-ghost" href="../?preview=1">Preview tanpa kamera</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid" id="grid" aria-label="Daftar kartu QR"></section>
+
+    <section class="how">
+      <h2>Cara pakai</h2>
+      <ol>
+        <li><strong>Tampilkan kartu</strong> di layar laptop, atau cetak dengan lebar sekitar 10–12 cm.</li>
+        <li><strong>Scan QR</strong> dengan kamera HP (Android: Google Lens / kamera bawaan, iPhone: Camera), lalu ketuk link yang muncul.</li>
+        <li>Ketuk <strong>Mulai AR Camera</strong> dan izinkan akses kamera.</li>
+        <li><strong>Arahkan kamera ke kartu yang sama</strong> (seluruh kartu terlihat, jarak 20–40 cm). Animasi produk muncul di atas kartu.</li>
+      </ol>
+    </section>
+  </main>
+
+  <div class="print-sheet" id="printSheet"></div>
+
+  <dialog id="zoom">
+    <button type="button" aria-label="Tutup" onclick="this.closest('dialog').close()">✕</button>
+    <img alt="">
+  </dialog>
+
+  <footer>Model 3D dan kartu adalah prototipe untuk tugas kuliah, bukan materi resmi Yves Saint Laurent</footer>
+
+  <script>
+    const CARDS = [
+      ['ysl-rouge-pur-couture', 'Rouge Pur Couture Lipstick'],
+      ['ysl-libre', 'Libre Eau de Parfum'],
+      ['ysl-kate-bag', 'Kate Chain Bag'],
+      ['ysl-opyum-pumps', 'Opyum Pumps'],
+      ['ysl-sl1-sunglasses', 'SL 1 Sunglasses'],
+      ['ysl-couture-palette', 'Couture Eyeshadow Palette'],
+    ];
+    const grid = document.getElementById('grid');
+    const sheet = document.getElementById('printSheet');
+    const zoom = document.getElementById('zoom');
+
+    CARDS.forEach(([id, name], i) => {
+      const file = `Card_${id}.png`;
+      const num = String(i + 1).padStart(2, '0');
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${file}" alt="Kartu QR ${name}" loading="lazy">
+        <div class="meta"><span class="num">${num}</span><p class="name">${name}</p></div>
+        <div class="row">
+          <a class="btn btn-ghost" href="${file}" target="_blank" rel="noopener">Buka</a>
+          <a class="btn btn-ghost" href="${file}" download="${file}">Download</a>
+        </div>`;
+      card.querySelector('img').addEventListener('click', () => {
+        zoom.querySelector('img').src = file;
+        zoom.querySelector('img').alt = `Kartu QR ${name}`;
+        zoom.showModal();
+      });
+      grid.appendChild(card);
+
+      const fig = document.createElement('figure');
+      fig.innerHTML = `<img src="${file}" alt=""><figcaption>${num} · ${name}</figcaption>`;
+      sheet.appendChild(fig);
+    });
+
+    zoom.addEventListener('click', (e) => { if (e.target === zoom) zoom.close(); });
+  </script>
+</body>
+</html>

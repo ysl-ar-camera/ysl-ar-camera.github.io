@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="id">
+<head><meta charset="utf-8"><title>Compile targets.mind</title>
+<style>body{font-family:system-ui;background:#111;color:#eee;padding:24px}</style></head>
+<body>
+<h1>Compile kartu → targets.mind</h1>
+<p id="log">Menyiapkan…</p>
+<script type="module">
+  import 'https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js';
+  const log = (t) => (document.getElementById('log').textContent = t);
+  const loadImage = (src) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+  window.compileDone = false;
+  try {
+    const catalog = await (await fetch(`../models/products.json?v=${Date.now()}`)).json();
+    // urutan target: 6 kartu desain, lalu 6 QR polos (dari PDF tugas)
+    const cardImgs = await Promise.all(catalog.products.map((p) => loadImage(`../cards/Card_${p.id}.png?v=${Date.now()}`)));
+    const plainImgs = await Promise.all(catalog.products.map((p) => loadImage(`../cards/Plain_${p.id}.png?v=${Date.now()}`)));
+    const images = [...cardImgs, ...plainImgs];
+    const compiler = new window.MINDAR.IMAGE.Compiler();
+    await compiler.compileImageTargets(images, (progress) => log(`Compile ${progress.toFixed(1)}%`));
+    const buffer = await compiler.exportData();
+    const res = await fetch('/save-mind', { method: 'POST', body: buffer });
+    log(`Selesai: ${await res.text()} (urutan: ${catalog.products.map((p) => p.id).join(', ')})`);
+    window.compileDone = true;
+  } catch (e) {
+    log('ERROR: ' + e);
+    window.compileError = String(e);
+  }
+</script>
+</body></html>

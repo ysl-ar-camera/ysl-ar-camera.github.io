@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>Yves Saint Laurent · AR Camera</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+      "mindar-image-three": "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="ar"></div>
+
+  <section id="intro" class="screen">
+    <div class="intro-card">
+      <p class="eyebrow">AR CAMERA</p>
+      <h1>Yves Saint Laurent</h1>
+      <p id="hint" class="lead">Arahkan kamera ke salah satu dari 6 kartu QR, animasi 3D produknya akan muncul di atas kartu.</p>
+      <ul class="brands">
+        <li><span class="dot" style="--c:#C9A24D"></span>Rouge Pur Couture Lipstick</li>
+        <li><span class="dot" style="--c:#C9A24D"></span>Libre Eau de Parfum</li>
+        <li><span class="dot" style="--c:#C9A24D"></span>Kate Chain Bag</li>
+        <li><span class="dot" style="--c:#C9A24D"></span>Opyum Pumps</li>
+        <li><span class="dot" style="--c:#C9A24D"></span>SL 1 Sunglasses</li>
+        <li><span class="dot" style="--c:#C9A24D"></span>Couture Eyeshadow Palette</li>
+      </ul>
+      <button id="start" disabled>Memuat model…</button>
+      <p class="small">Saat diminta, izinkan akses kamera.</p>
+      <p class="small"><a class="cards-link" href="cards/">Lihat &amp; cetak 6 kartu QR →</a></p>
+    </div>
+  </section>
+
+  <div id="hud" hidden>
+    <div id="status">Arahkan kamera ke kartu QR</div>
+    <div id="info" hidden>
+      <span id="info-accent"></span>
+      <div>
+        <p id="info-brand"></p>
+        <p id="info-product"></p>
+        <p id="info-tagline"></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="error" class="screen" hidden>
+    <div class="intro-card">
+      <h1>Kamera tidak bisa dibuka</h1>
+      <p id="error-text" class="lead"></p>
+      <button onclick="location.reload()">Coba lagi</button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
